@@ -10,8 +10,26 @@ class Tree {
   constructor(arr) {
     arr = mergeSort(arr);
     arr = removeSame(arr);
-    this.arr = arr;
     this.root = buildTree(arr);
+  }
+
+  insert(value, node = this.root) {
+    const insertedNode = new Node(value);
+    if (node.leftNode === null && node.data > value) {
+      node.leftNode = insertedNode;
+      return;
+    } else if (node.rightNode === null && node.data < value) {
+      node.rightNode = insertedNode;
+      return;
+    }
+
+    if (value > node.data) {
+      this.insert(value, node.rightNode);
+    } else if (value < node.data) {
+      this.insert(value, node.leftNode);
+    } else if (value === node) {
+      return;
+    }
   }
 }
 
@@ -77,4 +95,10 @@ function removeSame(arr) {
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+prettyPrint(tree.root);
+console.log(tree.root);
+console.log("right = ", tree.root.rightNode);
+console.log("left = ", tree.root.leftNode);
+
+tree.insert(33);
 prettyPrint(tree.root);
